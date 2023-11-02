@@ -11,10 +11,9 @@ player.on('timeupdate', _.throttle(handlerTimer, 1000, { trailing: false }));
 
 function handlerTimer(event){
   localStorage.setItem("videoplayer-current-time", event.seconds);
-  console.log(localStorage.getItem("videoplayer-current-time"));
 }
  
-player.setCurrentTime(localStorage.getItem("videoplayer-current-time"));
+player.setCurrentTime(localStorage.getItem("videoplayer-current-time") || 0);
 
 player.getVideoTitle().then(function(title) {
   console.log('title:', title);
