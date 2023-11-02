@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle';
+
 const submitBtn = document.querySelector("button");
 const form = document.querySelector(".feedback-form");
 
@@ -16,12 +18,17 @@ submitBtn.addEventListener("click", handlerSubmit);
 
 function handlerSubmit(evt) {
   evt.preventDefault();
-  console.log(JSON.parse(localStorage.getItem("feedback-form-state")));
-  localStorage.removeItem("feedback-form-state");
-  form.reset();
+  const { email, message } = form.elements;
+  if (email.value.length > 0 && message.value.length > 0) {
+    console.log(JSON.parse(localStorage.getItem("feedback-form-state")));
+    localStorage.removeItem("feedback-form-state");
+    form.reset();
+  } else {
+    alert("Please fill all fields.")
+  }
 }
 
-form.addEventListener("input", _.throttle(handlerInput, 500));
+form.addEventListener("input", throttle(handlerInput, 500));
 
 function handlerInput(evt) {
   const field = evt.target;
